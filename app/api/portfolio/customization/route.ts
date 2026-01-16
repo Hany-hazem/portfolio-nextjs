@@ -15,6 +15,44 @@ const supabaseAdmin = serviceRoleKey
   ? createClient(supabaseUrl, serviceRoleKey)
   : null;
 
+// Convert snake_case DB columns to camelCase
+function dbToClient(data: any) {
+  if (!data) return null;
+  return {
+    id: data.id,
+    heroTitle: data.hero_title,
+    heroSubtitle: data.hero_subtitle,
+    aboutText: data.about_text,
+    contactEmail: data.contact_email,
+    contactPhone: data.contact_phone,
+    githubUsername: data.github_username,
+    skills: data.skills || [],
+    projects: data.projects || [],
+    education: data.education || [],
+    experience: data.experience || [],
+    socialLinks: data.social_links || {}
+  };
+}
+
+// Convert camelCase to snake_case for DB
+function clientToDb(data: any) {
+  return {
+    id: 1,
+    hero_title: data.heroTitle,
+    hero_subtitle: data.heroSubtitle,
+    about_text: data.aboutText,
+    contact_email: data.contactEmail,
+    contact_phone: data.contactPhone,
+    github_username: data.githubUsername,
+    skills: data.skills || [],
+    projects: data.projects || [],
+    education: data.education || [],
+    experience: data.experience || [],
+    social_links: data.socialLinks || {},
+    updated_at: new Date().toISOString()
+  };
+}
+
 export async function GET(request: NextRequest) {
   try {
     const client = supabaseAdmin || supabase;
@@ -33,15 +71,22 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Return default customization if not found
-    return NextResponse.json(data || {
+    // Convert to camelCase and return with defaults
+    const customization = dbToClient(data) || {
       id: 1,
       heroTitle: 'Hani Hazem Elbegermy',
       heroSubtitle: 'Computer Science Student & Tech Enthusiast',
       aboutText: 'Passionate about backend development, AI, and system administration',
       contactEmail: 'contact@example.com',
-      githubUsername: 'Hany-hazem'
-    });
+      githubUsername: 'Hany-hazem',
+      skills: [],
+      projects: [],
+      education: [],
+      experience: [],
+      socialLinks: {}
+    };
+
+    return NextResponse.json(customization);
   } catch (error) {
     console.error('API error:', error);
     return NextResponse.json(
@@ -69,19 +114,15 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const data = await request.json();
+    const clientData = await request.json();
+    
+    // Convert camelCase to snake_case for database
+    const dbData = clientToDb(clientData);
 
     // Upsert the customization data
     const { data: result, error } = await supabaseAdmin
       .from('portfolio_customization')
-      .upsert(
-        {
-          id: 1,
-          ...data,
-          updated_at: new Date().toISOString()
-        },
-        { onConflict: 'id' }
-      )
+      .upsert(dbData, { onConflict: 'id' })
       .select()
       .single();
 
@@ -93,7 +134,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    return NextResponse.json(result);
+    // Convert back to camelCase for response
+    return NextResponse.json(dbToClient(result));
   } catch (error) {
     console.error('API error:', error);
     return NextResponse.json(
