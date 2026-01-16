@@ -4,7 +4,7 @@ import { createClient } from '@supabase/supabase-js';
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-const adminToken = process.env.ADMIN_API_SECRET;
+const adminPassword = 'portfolio2026'; // In production, use env variable
 
 if (!supabaseUrl) {
   throw new Error('Missing NEXT_PUBLIC_SUPABASE_URL');
@@ -55,9 +55,9 @@ export async function POST(request: NextRequest) {
   try {
     // Check authentication
     const token = request.headers.get('x-admin-token');
-    if (!token || token !== adminToken) {
+    if (!token || token !== adminPassword) {
       return NextResponse.json(
-        { error: 'Unauthorized' },
+        { error: 'Unauthorized - Invalid admin token' },
         { status: 401 }
       );
     }

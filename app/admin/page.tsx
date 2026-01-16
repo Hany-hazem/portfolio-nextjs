@@ -29,11 +29,10 @@ export default function AdminPage() {
     
     // Simple password check - in production, use proper authentication
     if (password === 'portfolio2026') {
-      const token = Buffer.from(`admin:${password}`).toString('base64');
       setIsAuthenticated(true);
-      setAdminToken(token);
+      setAdminToken(password);
       sessionStorage.setItem('admin_authenticated', 'true');
-      sessionStorage.setItem('admin_token', token);
+      sessionStorage.setItem('admin_token', password);
       setError('');
     } else {
       setError('Invalid password');
