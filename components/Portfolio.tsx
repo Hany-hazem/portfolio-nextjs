@@ -77,9 +77,15 @@ export default function Portfolio() {
         setLoading(true);
         setError(null);
         
-        // Check for user settings first
-        const settings = await getUserSettings();
-        const username = settings?.github_username || process.env.NEXT_PUBLIC_GITHUB_USER || 'Hany-hazem';
+        // Check for user settings first (may not be available on public site)
+        let username = 'Hany-hazem'; // default fallback
+        try {
+          const settings = await getUserSettings();
+          username = settings?.github_username || process.env.NEXT_PUBLIC_GITHUB_USER || 'Hany-hazem';
+        } catch (settingsError) {
+          // Settings not available, use default
+          console.debug('Using default username');
+        }
         setGithubUsername(username);
         
         // Fetch user profile and repos in parallel
