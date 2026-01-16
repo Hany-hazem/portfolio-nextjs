@@ -348,7 +348,7 @@ export default function Portfolio() {
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-bold mb-12 text-center">Skills</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {skills.map(skill => (
+            {(customization?.skills || skills).map((skill: any) => (
               <div key={skill.name} className="bg-gray-800 p-6 rounded-lg">
                 <div className="flex justify-between mb-2">
                   <span className="font-semibold">{skill.name}</span>
