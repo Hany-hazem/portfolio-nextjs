@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import { fetchGitHubUser, fetchGitHubRepos, getUserSettings, type GitHubUser, type GitHubRepo } from '@/lib/github';
 
+import { getPortfolioCustomization, type PortfolioCustomization } from '@/lib/portfolio-db';
 interface Skill {
   name: string;
   level: number;
@@ -49,6 +50,7 @@ export default function Portfolio() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [githubUsername, setGithubUsername] = useState('Hany-hazem');
+  const [customization, setCustomization] = useState<PortfolioCustomization | null>(null);
 
   useEffect(() => {
     setIsVisible(true);
@@ -68,6 +70,15 @@ export default function Portfolio() {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Load portfolio customization on mount
+  useEffect(() => {
+    async function loadCustomization() {
+      const data = await getPortfolioCustomization();
+      if (data) setCustomization(data);
+    }
+    loadCustomization();
   }, []);
 
   // Fetch GitHub data on mount
@@ -271,11 +282,11 @@ export default function Portfolio() {
                 )}
                 <h2 className="text-6xl font-extrabold mb-4">
                   <span className="bg-gradient-to-r from-blue-400 via-purple-500 to-teal-400 bg-clip-text text-transparent">
-                    {githubUser?.name || 'Hani Hazem Elbegermy'}
+                    {customization?.heroTitle || githubUser?.name || 'Hani Hazem Elbegermy'}
                   </span>
                 </h2>
                 <p className="text-2xl text-gray-300 mb-8">
-                  {githubUser?.bio || 'Computer Science Student & Tech Enthusiast'}
+                  {customization?.heroSubtitle || githubUser?.bio || 'Computer Science Student & Tech Enthusiast'}
                 </p>
                 <div className="flex flex-wrap justify-center gap-4 mb-8 text-gray-400">
                   {githubUser?.location && (
@@ -326,8 +337,7 @@ export default function Portfolio() {
         <div className="max-w-4xl">
           <h2 className="text-4xl font-bold mb-8 text-center">About Me</h2>
           <p className="text-lg text-gray-300 text-center">
-            Computer Science student passionate about backend development, AI, and system administration.
-            Currently exploring SaaS architecture and building practical skills through hands-on projects.
+            {customization?.aboutText || 'Computer Science student passionate about backend development, AI, and system administration. Currently exploring SaaS architecture and building practical skills through hands-on projects.'}
           </p>
         </div>
       </section>
