@@ -52,6 +52,7 @@ export default function Portfolio() {
   const [githubUsername, setGithubUsername] = useState('Hany-hazem');
   const [customization, setCustomization] = useState<PortfolioCustomization | null>(null);
   const [customizationLoading, setCustomizationLoading] = useState(true);
+  const socialLinks = customization?.socialLinks || {};
 
   useEffect(() => {
     setIsVisible(true);
@@ -399,17 +400,59 @@ export default function Portfolio() {
           <p className="text-lg text-gray-300 mb-8">
             Interested in collaborating or have a question? Feel free to reach out!
           </p>
-          <div className="flex justify-center gap-6">
-            {githubUser?.email && (
-              <a href={`mailto:${githubUser.email}`} className="flex items-center gap-2 text-blue-400 hover:text-blue-300">
+          <div className="flex flex-wrap justify-center gap-4">
+            {(customization?.contactEmail || githubUser?.email) && (
+              <a href={`mailto:${customization?.contactEmail || githubUser?.email}`} className="flex items-center gap-2 text-blue-400 hover:text-blue-300">
                 <Mail className="w-6 h-6" />
                 Email
               </a>
             )}
-            {githubUser?.html_url && (
-              <a href={githubUser.html_url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-blue-400 hover:text-blue-300">
+            {customization?.contactPhone && (
+              <a href={`tel:${customization.contactPhone}`} className="flex items-center gap-2 text-blue-400 hover:text-blue-300">
+                <Phone className="w-6 h-6" />
+                Phone
+              </a>
+            )}
+            {(socialLinks.github || githubUser?.html_url) && (
+              <a href={socialLinks.github || githubUser?.html_url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-blue-400 hover:text-blue-300">
                 <Github className="w-6 h-6" />
                 GitHub
+              </a>
+            )}
+            {socialLinks.linkedin && (
+              <a href={socialLinks.linkedin} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-blue-400 hover:text-blue-300">
+                <ExternalLink className="w-6 h-6" />
+                LinkedIn
+              </a>
+            )}
+            {socialLinks.twitter && (
+              <a href={socialLinks.twitter} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-blue-400 hover:text-blue-300">
+                <ExternalLink className="w-6 h-6" />
+                Twitter
+              </a>
+            )}
+            {socialLinks.facebook && (
+              <a href={socialLinks.facebook} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-blue-400 hover:text-blue-300">
+                <ExternalLink className="w-6 h-6" />
+                Facebook
+              </a>
+            )}
+            {socialLinks.instagram && (
+              <a href={socialLinks.instagram} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-blue-400 hover:text-blue-300">
+                <ExternalLink className="w-6 h-6" />
+                Instagram
+              </a>
+            )}
+            {socialLinks.youtube && (
+              <a href={socialLinks.youtube} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-blue-400 hover:text-blue-300">
+                <ExternalLink className="w-6 h-6" />
+                YouTube
+              </a>
+            )}
+            {socialLinks.website && (
+              <a href={socialLinks.website} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-blue-400 hover:text-blue-300">
+                <ExternalLink className="w-6 h-6" />
+                Website
               </a>
             )}
           </div>

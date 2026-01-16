@@ -31,6 +31,10 @@ export interface PortfolioCustomization {
     github?: string;
     linkedin?: string;
     twitter?: string;
+    facebook?: string;
+    instagram?: string;
+    youtube?: string;
+    website?: string;
     email?: string;
   };
 }

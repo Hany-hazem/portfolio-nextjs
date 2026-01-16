@@ -259,6 +259,15 @@ export default function AdminDashboard({ onClose, adminToken }: AdminDashboardPr
               />
             </div>
             <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Phone</label>
+              <input
+                type="tel"
+                value={customization.contactPhone || ''}
+                onChange={(e) => setCustomization({ ...customization, contactPhone: e.target.value })}
+                className="w-full px-3 py-2 bg-gray-900 border border-gray-600 rounded text-white focus:border-blue-600 outline-none"
+              />
+            </div>
+            <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">GitHub Username</label>
               <input
                 type="text"
@@ -266,6 +275,80 @@ export default function AdminDashboard({ onClose, adminToken }: AdminDashboardPr
                 onChange={(e) => setCustomization({ ...customization, githubUsername: e.target.value })}
                 className="w-full px-3 py-2 bg-gray-900 border border-gray-600 rounded text-white focus:border-blue-600 outline-none"
               />
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">LinkedIn</label>
+                <input
+                  type="url"
+                  value={customization.socialLinks?.linkedin || ''}
+                  onChange={(e) => setCustomization({
+                    ...customization,
+                    socialLinks: { ...(customization.socialLinks || {}), linkedin: e.target.value },
+                  })}
+                  className="w-full px-3 py-2 bg-gray-900 border border-gray-600 rounded text-white focus:border-blue-600 outline-none"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Twitter</label>
+                <input
+                  type="url"
+                  value={customization.socialLinks?.twitter || ''}
+                  onChange={(e) => setCustomization({
+                    ...customization,
+                    socialLinks: { ...(customization.socialLinks || {}), twitter: e.target.value },
+                  })}
+                  className="w-full px-3 py-2 bg-gray-900 border border-gray-600 rounded text-white focus:border-blue-600 outline-none"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Facebook</label>
+                <input
+                  type="url"
+                  value={customization.socialLinks?.facebook || ''}
+                  onChange={(e) => setCustomization({
+                    ...customization,
+                    socialLinks: { ...(customization.socialLinks || {}), facebook: e.target.value },
+                  })}
+                  className="w-full px-3 py-2 bg-gray-900 border border-gray-600 rounded text-white focus:border-blue-600 outline-none"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Instagram</label>
+                <input
+                  type="url"
+                  value={customization.socialLinks?.instagram || ''}
+                  onChange={(e) => setCustomization({
+                    ...customization,
+                    socialLinks: { ...(customization.socialLinks || {}), instagram: e.target.value },
+                  })}
+                  className="w-full px-3 py-2 bg-gray-900 border border-gray-600 rounded text-white focus:border-blue-600 outline-none"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">YouTube</label>
+                <input
+                  type="url"
+                  value={customization.socialLinks?.youtube || ''}
+                  onChange={(e) => setCustomization({
+                    ...customization,
+                    socialLinks: { ...(customization.socialLinks || {}), youtube: e.target.value },
+                  })}
+                  className="w-full px-3 py-2 bg-gray-900 border border-gray-600 rounded text-white focus:border-blue-600 outline-none"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Website</label>
+                <input
+                  type="url"
+                  value={customization.socialLinks?.website || ''}
+                  onChange={(e) => setCustomization({
+                    ...customization,
+                    socialLinks: { ...(customization.socialLinks || {}), website: e.target.value },
+                  })}
+                  className="w-full px-3 py-2 bg-gray-900 border border-gray-600 rounded text-white focus:border-blue-600 outline-none"
+                />
+              </div>
             </div>
           </div>
         )}
