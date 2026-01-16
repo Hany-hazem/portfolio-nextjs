@@ -51,6 +51,7 @@ export default function Portfolio() {
   const [error, setError] = useState<string | null>(null);
   const [githubUsername, setGithubUsername] = useState('Hany-hazem');
   const [customization, setCustomization] = useState<PortfolioCustomization | null>(null);
+  const [customizationLoading, setCustomizationLoading] = useState(true);
 
   useEffect(() => {
     setIsVisible(true);
@@ -77,6 +78,7 @@ export default function Portfolio() {
     async function loadCustomization() {
       const data = await getPortfolioCustomization();
       if (data) setCustomization(data);
+      setCustomizationLoading(false);
     }
     loadCustomization();
   }, []);
@@ -337,7 +339,7 @@ export default function Portfolio() {
         <div className="max-w-4xl">
           <h2 className="text-4xl font-bold mb-8 text-center">About Me</h2>
           <p className="text-lg text-gray-300 text-center">
-            {customization?.aboutText || 'Computer Science student passionate about backend development, AI, and system administration. Currently exploring SaaS architecture and building practical skills through hands-on projects.'}
+            {customizationLoading ? '' : (customization?.aboutText || 'Computer Science student passionate about backend development, AI, and system administration. Currently exploring SaaS architecture and building practical skills through hands-on projects.')}
           </p>
         </div>
       </section>
