@@ -36,7 +36,7 @@ interface Project {
   technologies: string[];
   period: string;
   status: string;
-  icon: React.ReactNode;
+  icon?: React.ReactNode;
 }
 
 export default function Portfolio() {
@@ -370,10 +370,10 @@ export default function Portfolio() {
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-bold mb-12 text-center">Projects</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {projects.map(project => (
+            {(customization?.projects || projects).map((project: any) => (
               <div key={project.id} className="bg-gray-800 p-6 rounded-lg hover:bg-gray-750 transition-colors">
                 <div className="flex items-start gap-4 mb-4">
-                  <div className="p-3 bg-blue-600/20 rounded-lg">{project.icon}</div>
+                  <div className="p-3 bg-blue-600/20 rounded-lg">{project.icon || <Code className="w-6 h-6" />}</div>
                   <div className="flex-1">
                     <h3 className="text-xl font-bold mb-2">{project.title}</h3>
                     <p className="text-sm text-gray-400 mb-2">{project.period}</p>
@@ -381,7 +381,7 @@ export default function Portfolio() {
                 </div>
                 <p className="text-gray-300 mb-4">{project.description}</p>
                 <div className="flex flex-wrap gap-2">
-                  {project.technologies.slice(0, 4).map(tech => (
+                  {project.technologies.slice(0, 4).map((tech: string) => (
                     <span key={tech} className="px-3 py-1 bg-gray-700 rounded-full text-xs">
                       {tech}
                     </span>
