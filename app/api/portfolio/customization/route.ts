@@ -30,7 +30,17 @@ function dbToClient(data: any) {
     projects: data.projects || [],
     education: data.education || [],
     experience: data.experience || [],
-    socialLinks: data.social_links || {}
+    socialLinks: data.social_links || {},
+    whatsapp: data.whatsapp,
+    telegram: data.telegram,
+    resumeLink: data.resume_link,
+    contactMessage: data.contact_message,
+    primaryColor: data.primary_color,
+    secondaryColor: data.secondary_color,
+    ogTitle: data.og_title,
+    ogDescription: data.og_description,
+    ogImage: data.og_image,
+    certifications: data.certifications || []
   };
 }
 
@@ -49,6 +59,16 @@ function clientToDb(data: any) {
     education: data.education || [],
     experience: data.experience || [],
     social_links: data.socialLinks || {},
+    whatsapp: data.whatsapp,
+    telegram: data.telegram,
+    resume_link: data.resumeLink,
+    contact_message: data.contactMessage,
+    primary_color: data.primaryColor,
+    secondary_color: data.secondaryColor,
+    og_title: data.ogTitle,
+    og_description: data.ogDescription,
+    og_image: data.ogImage,
+    certifications: data.certifications || [],
     updated_at: new Date().toISOString()
   };
 }

@@ -7,7 +7,16 @@ export interface PortfolioCustomization {
   contactEmail?: string;
   contactPhone?: string;
   githubUsername?: string;
-  skills?: Array<{ name: string; level: number; category: string }>;
+  resumeLink?: string;
+  contactMessage?: string;
+  whatsapp?: string;
+  telegram?: string;
+  primaryColor?: string;
+  secondaryColor?: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  ogImage?: string;
+  skills?: Array<{ name: string; level: number; category: string; years?: number }>;
   projects?: Array<{
     id: string;
     title: string;
@@ -15,16 +24,20 @@ export interface PortfolioCustomization {
     technologies: string[];
     period: string;
     status: string;
+    featured?: boolean;
+    demoLink?: string;
+    repoLink?: string;
   }>;
   education?: Array<{
-    school: string;
+    institution: string;
     degree: string;
-    year: string;
+    period: string;
+    description?: string;
   }>;
   experience?: Array<{
     company: string;
     role: string;
-    duration: string;
+    period: string;
     description: string;
   }>;
   socialLinks?: {
@@ -37,6 +50,12 @@ export interface PortfolioCustomization {
     website?: string;
     email?: string;
   };
+  certifications?: Array<{
+    name: string;
+    issuer: string;
+    date: string;
+    link?: string;
+  }>;
 }
 
 // Fetch portfolio customization from Supabase

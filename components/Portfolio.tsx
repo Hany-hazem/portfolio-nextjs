@@ -372,7 +372,7 @@ export default function Portfolio() {
           <h2 className="text-4xl font-bold mb-12 text-center">Projects</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {(customization?.projects || projects).map((project: any) => (
-              <div key={project.id} className="bg-gray-800 p-6 rounded-lg hover:bg-gray-750 transition-colors">
+              <div key={project.id} className="relative bg-gray-800 p-6 rounded-lg hover:bg-gray-750 transition-colors">
                 <div className="flex items-start gap-4 mb-4">
                   <div className="p-3 bg-blue-600/20 rounded-lg">{project.icon || <Code className="w-6 h-6" />}</div>
                   <div className="flex-1">
@@ -381,18 +381,110 @@ export default function Portfolio() {
                   </div>
                 </div>
                 <p className="text-gray-300 mb-4">{project.description}</p>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-2 mb-4">
                   {project.technologies.slice(0, 4).map((tech: string) => (
                     <span key={tech} className="px-3 py-1 bg-gray-700 rounded-full text-xs">
                       {tech}
                     </span>
                   ))}
                 </div>
+                {project.featured && (
+                  <div className="absolute top-4 right-4 bg-yellow-500 text-gray-900 px-3 py-1 rounded-full text-xs font-bold">
+                    Featured
+                  </div>
+                )}
+                {(project.demoLink || project.repoLink) && (
+                  <div className="flex gap-2 mt-4">
+                    {project.demoLink && (
+                      <a href={project.demoLink} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 px-3 py-2 bg-blue-600 hover:bg-blue-700 rounded text-sm transition-colors">
+                        <ExternalLink className="w-4 h-4" />
+                        Demo
+                      </a>
+                    )}
+                    {project.repoLink && (
+                      <a href={project.repoLink} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 px-3 py-2 bg-gray-700 hover:bg-gray-600 rounded text-sm transition-colors">
+                        <Github className="w-4 h-4" />
+                        Code
+                      </a>
+                    )}
+                  </div>
+                )}
               </div>
             ))}
           </div>
         </div>
       </section>
+
+      {/* Education Section */}
+      {(customization?.education || []).length > 0 && (
+        <section className="min-h-screen py-20 px-4">
+          <div className="max-w-6xl mx-auto">
+            <h2 className="text-4xl font-bold mb-12 text-center">Education</h2>
+            <div className="space-y-6">
+              {customization?.education?.map((edu: any, idx: number) => (
+                <div key={idx} className="bg-gray-800 p-6 rounded-lg border-l-4 border-blue-600">
+                  <div className="flex justify-between items-start mb-2">
+                    <div>
+                      <h3 className="text-xl font-bold text-white">{edu.institution}</h3>
+                      <p className="text-gray-300 font-semibold">{edu.degree}</p>
+                    </div>
+                    <span className="text-gray-400 text-sm">{edu.period}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Experience Section */}
+      {(customization?.experience || []).length > 0 && (
+        <section className="min-h-screen py-20 px-4">
+          <div className="max-w-6xl mx-auto">
+            <h2 className="text-4xl font-bold mb-12 text-center">Experience</h2>
+            <div className="space-y-6">
+              {customization?.experience?.map((exp: any, idx: number) => (
+                <div key={idx} className="bg-gray-800 p-6 rounded-lg border-l-4 border-green-600">
+                  <div className="flex justify-between items-start mb-2">
+                    <div>
+                      <h3 className="text-xl font-bold text-white">{exp.role}</h3>
+                      <p className="text-gray-300">{exp.company}</p>
+                    </div>
+                    <span className="text-gray-400 text-sm">{exp.period}</span>
+                  </div>
+                  {exp.description && (
+                    <p className="text-gray-300 mt-3">{exp.description}</p>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Certifications Section */}
+      {(customization?.certifications || []).length > 0 && (
+        <section className="min-h-screen py-20 px-4">
+          <div className="max-w-6xl mx-auto">
+            <h2 className="text-4xl font-bold mb-12 text-center">Certifications</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {customization?.certifications?.map((cert: any, idx: number) => (
+                <div key={idx} className="bg-gray-800 p-6 rounded-lg hover:bg-gray-750 transition-colors">
+                  <h3 className="text-lg font-bold text-white mb-1">{cert.name}</h3>
+                  <p className="text-gray-400 text-sm mb-2">{cert.issuer}</p>
+                  {cert.date && <p className="text-gray-500 text-xs mb-3">{cert.date}</p>}
+                  {cert.link && (
+                    <a href={cert.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-blue-400 hover:text-blue-300 text-sm">
+                      <ExternalLink className="w-4 h-4" />
+                      View Certificate
+                    </a>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       <section id="contact" className="min-h-screen flex items-center justify-center py-20 px-4">
         <div className="max-w-4xl text-center">
@@ -453,6 +545,24 @@ export default function Portfolio() {
               <a href={socialLinks.website} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-blue-400 hover:text-blue-300">
                 <ExternalLink className="w-6 h-6" />
                 Website
+              </a>
+            )}
+            {customization?.whatsapp && (
+              <a href={`https://wa.me/${customization.whatsapp.replace(/[^\d]/g, '')}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-green-400 hover:text-green-300">
+                <ExternalLink className="w-6 h-6" />
+                WhatsApp
+              </a>
+            )}
+            {customization?.telegram && (
+              <a href={`https://t.me/${customization.telegram.startsWith('@') ? customization.telegram.slice(1) : customization.telegram}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-blue-400 hover:text-blue-300">
+                <ExternalLink className="w-6 h-6" />
+                Telegram
+              </a>
+            )}
+            {customization?.resumeLink && (
+              <a href={customization.resumeLink} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-purple-400 hover:text-purple-300">
+                <ExternalLink className="w-6 h-6" />
+                Resume
               </a>
             )}
           </div>

@@ -41,7 +41,10 @@ export default function AdminDashboard({ onClose, adminToken }: AdminDashboardPr
     projects: false,
     education: false,
     experience: false,
-    social: false
+    social: false,
+    theme: false,
+    seo: false,
+    certifications: false
   });
 
   useEffect(() => {
@@ -150,7 +153,246 @@ export default function AdminDashboard({ onClose, adminToken }: AdminDashboardPr
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold">Portfolio Customization</h1>
         <div className="flex gap-3">
-          <button
+          
+
+      {/* Education Section */}
+      <div className="bg-gray-800 rounded-lg p-6">
+        <button
+          onClick={() => setExpandedSections({ ...expandedSections, education: !expandedSections.education })}
+          className="flex items-center justify-between w-full text-left"
+        >
+          <h2 className="text-2xl font-bold text-white">Education</h2>
+          {expandedSections.education ? <ChevronUp className="text-gray-400" /> : <ChevronDown className="text-gray-400" />}
+        </button>
+        
+        {expandedSections.education && (
+          <div className="mt-6 space-y-4">
+            {(customization.education || []).map((edu: any, idx: number) => (
+              <div key={idx} className="bg-gray-900 p-4 rounded-lg space-y-2">
+                <input
+                  type="text"
+                  value={edu.institution || ''}
+                  onChange={(e) => {
+                    const updated = [...(customization.education || [])];
+                    updated[idx] = { ...updated[idx], institution: e.target.value };
+                    setCustomization({ ...customization, education: updated });
+                  }}
+                  placeholder="University/Institution"
+                  className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white focus:border-blue-600 outline-none"
+                />
+                <input
+                  type="text"
+                  value={edu.degree || ''}
+                  onChange={(e) => {
+                    const updated = [...(customization.education || [])];
+                    updated[idx] = { ...updated[idx], degree: e.target.value };
+                    setCustomization({ ...customization, education: updated });
+                  }}
+                  placeholder="Degree (e.g., B.S. Computer Science)"
+                  className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white focus:border-blue-600 outline-none"
+                />
+                <input
+                  type="text"
+                  value={edu.period || ''}
+                  onChange={(e) => {
+                    const updated = [...(customization.education || [])];
+                    updated[idx] = { ...updated[idx], period: e.target.value };
+                    setCustomization({ ...customization, education: updated });
+                  }}
+                  placeholder="2020 - 2024"
+                  className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white focus:border-blue-600 outline-none"
+                />
+                <button
+                  onClick={() => setCustomization({
+                    ...customization,
+                    education: (customization.education || []).filter((_, i) => i !== idx)
+                  })}
+                  className="flex items-center gap-2 text-red-400 hover:text-red-300 text-sm"
+                >
+                  <Trash2 className="w-4 h-4" /> Remove
+                </button>
+              </div>
+            ))}
+            <button
+              onClick={() => setCustomization({
+                ...customization,
+                education: [...(customization.education || []), { institution: '', degree: '', period: '' }]
+              })}
+              className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded text-white transition-colors"
+            >
+              <Plus className="w-4 h-4" /> Add Education
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Experience Section */}
+      <div className="bg-gray-800 rounded-lg p-6">
+        <button
+          onClick={() => setExpandedSections({ ...expandedSections, experience: !expandedSections.experience })}
+          className="flex items-center justify-between w-full text-left"
+        >
+          <h2 className="text-2xl font-bold text-white">Experience</h2>
+          {expandedSections.experience ? <ChevronUp className="text-gray-400" /> : <ChevronDown className="text-gray-400" />}
+        </button>
+        
+        {expandedSections.experience && (
+          <div className="mt-6 space-y-4">
+            {(customization.experience || []).map((exp: any, idx: number) => (
+              <div key={idx} className="bg-gray-900 p-4 rounded-lg space-y-2">
+                <input
+                  type="text"
+                  value={exp.company || ''}
+                  onChange={(e) => {
+                    const updated = [...(customization.experience || [])];
+                    updated[idx] = { ...updated[idx], company: e.target.value };
+                    setCustomization({ ...customization, experience: updated });
+                  }}
+                  placeholder="Company"
+                  className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white focus:border-blue-600 outline-none"
+                />
+                <input
+                  type="text"
+                  value={exp.role || ''}
+                  onChange={(e) => {
+                    const updated = [...(customization.experience || [])];
+                    updated[idx] = { ...updated[idx], role: e.target.value };
+                    setCustomization({ ...customization, experience: updated });
+                  }}
+                  placeholder="Job Title"
+                  className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white focus:border-blue-600 outline-none"
+                />
+                <input
+                  type="text"
+                  value={exp.period || ''}
+                  onChange={(e) => {
+                    const updated = [...(customization.experience || [])];
+                    updated[idx] = { ...updated[idx], period: e.target.value };
+                    setCustomization({ ...customization, experience: updated });
+                  }}
+                  placeholder="Jan 2020 - Dec 2021"
+                  className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white focus:border-blue-600 outline-none"
+                />
+                <textarea
+                  value={exp.description || ''}
+                  onChange={(e) => {
+                    const updated = [...(customization.experience || [])];
+                    updated[idx] = { ...updated[idx], description: e.target.value };
+                    setCustomization({ ...customization, experience: updated });
+                  }}
+                  placeholder="Description of role and achievements"
+                  rows={2}
+                  className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white focus:border-blue-600 outline-none"
+                />
+                <button
+                  onClick={() => setCustomization({
+                    ...customization,
+                    experience: (customization.experience || []).filter((_, i) => i !== idx)
+                  })}
+                  className="flex items-center gap-2 text-red-400 hover:text-red-300 text-sm"
+                >
+                  <Trash2 className="w-4 h-4" /> Remove
+                </button>
+              </div>
+            ))}
+            <button
+              onClick={() => setCustomization({
+                ...customization,
+                experience: [...(customization.experience || []), { company: '', role: '', period: '', description: '' }]
+              })}
+              className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded text-white transition-colors"
+            >
+              <Plus className="w-4 h-4" /> Add Experience
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Certifications Section */}
+      <div className="bg-gray-800 rounded-lg p-6">
+        <button
+          onClick={() => setExpandedSections({ ...expandedSections, certifications: !expandedSections.certifications })}
+          className="flex items-center justify-between w-full text-left"
+        >
+          <h2 className="text-2xl font-bold text-white">Certifications</h2>
+          {expandedSections.certifications ? <ChevronUp className="text-gray-400" /> : <ChevronDown className="text-gray-400" />}
+        </button>
+        
+        {expandedSections.certifications && (
+          <div className="mt-6 space-y-4">
+            {(customization.certifications || []).map((cert: any, idx: number) => (
+              <div key={idx} className="bg-gray-900 p-4 rounded-lg space-y-2">
+                <input
+                  type="text"
+                  value={cert.name || ''}
+                  onChange={(e) => {
+                    const updated = [...(customization.certifications || [])];
+                    updated[idx] = { ...updated[idx], name: e.target.value };
+                    setCustomization({ ...customization, certifications: updated });
+                  }}
+                  placeholder="Certification Name"
+                  className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white focus:border-blue-600 outline-none"
+                />
+                <input
+                  type="text"
+                  value={cert.issuer || ''}
+                  onChange={(e) => {
+                    const updated = [...(customization.certifications || [])];
+                    updated[idx] = { ...updated[idx], issuer: e.target.value };
+                    setCustomization({ ...customization, certifications: updated });
+                  }}
+                  placeholder="Issuer/Organization"
+                  className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white focus:border-blue-600 outline-none"
+                />
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <input
+                    type="text"
+                    value={cert.date || ''}
+                    onChange={(e) => {
+                      const updated = [...(customization.certifications || [])];
+                      updated[idx] = { ...updated[idx], date: e.target.value };
+                      setCustomization({ ...customization, certifications: updated });
+                    }}
+                    placeholder="Issue Date"
+                    className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white focus:border-blue-600 outline-none"
+                  />
+                  <input
+                    type="url"
+                    value={cert.link || ''}
+                    onChange={(e) => {
+                      const updated = [...(customization.certifications || [])];
+                      updated[idx] = { ...updated[idx], link: e.target.value };
+                      setCustomization({ ...customization, certifications: updated });
+                    }}
+                    placeholder="Certificate URL (optional)"
+                    className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white focus:border-blue-600 outline-none"
+                  />
+                </div>
+                <button
+                  onClick={() => setCustomization({
+                    ...customization,
+                    certifications: (customization.certifications || []).filter((_, i) => i !== idx)
+                  })}
+                  className="flex items-center gap-2 text-red-400 hover:text-red-300 text-sm"
+                >
+                  <Trash2 className="w-4 h-4" /> Remove
+                </button>
+              </div>
+            ))}
+            <button
+              onClick={() => setCustomization({
+                ...customization,
+                certifications: [...(customization.certifications || []), { name: '', issuer: '', date: '', link: '' }]
+              })}
+              className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded text-white transition-colors"
+            >
+              <Plus className="w-4 h-4" /> Add Certification
+            </button>
+          </div>
+        )}
+      </div>
+
+<button
             onClick={handleSave}
             disabled={saving}
             className="flex items-center gap-2 px-6 py-2 bg-green-600 hover:bg-green-700 disabled:bg-gray-600 rounded-lg transition-colors"
@@ -273,6 +515,48 @@ export default function AdminDashboard({ onClose, adminToken }: AdminDashboardPr
                 type="text"
                 value={customization.githubUsername || ''}
                 onChange={(e) => setCustomization({ ...customization, githubUsername: e.target.value })}
+                className="w-full px-3 py-2 bg-gray-900 border border-gray-600 rounded text-white focus:border-blue-600 outline-none"
+              />
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">WhatsApp Number</label>
+                <input
+                  type="tel"
+                  value={customization.whatsapp || ''}
+                  onChange={(e) => setCustomization({ ...customization, whatsapp: e.target.value })}
+                  placeholder="+201027579528"
+                  className="w-full px-3 py-2 bg-gray-900 border border-gray-600 rounded text-white focus:border-blue-600 outline-none"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Telegram Username</label>
+                <input
+                  type="text"
+                  value={customization.telegram || ''}
+                  onChange={(e) => setCustomization({ ...customization, telegram: e.target.value })}
+                  placeholder="@username"
+                  className="w-full px-3 py-2 bg-gray-900 border border-gray-600 rounded text-white focus:border-blue-600 outline-none"
+                />
+              </div>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Resume/CV Link</label>
+              <input
+                type="url"
+                value={customization.resumeLink || ''}
+                onChange={(e) => setCustomization({ ...customization, resumeLink: e.target.value })}
+                placeholder="https://..."
+                className="w-full px-3 py-2 bg-gray-900 border border-gray-600 rounded text-white focus:border-blue-600 outline-none"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Contact Form Message (Optional)</label>
+              <textarea
+                value={customization.contactMessage || ''}
+                onChange={(e) => setCustomization({ ...customization, contactMessage: e.target.value })}
+                placeholder="Custom message for contact section"
+                rows={3}
                 className="w-full px-3 py-2 bg-gray-900 border border-gray-600 rounded text-white focus:border-blue-600 outline-none"
               />
             </div>
