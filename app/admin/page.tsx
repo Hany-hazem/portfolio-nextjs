@@ -1,23 +1,39 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import AdminDashboard from '@/components/AdminDashboard';
+import PortfolioCustomization from '@/components/PortfolioCustomization';
 import { Lock } from 'lucide-react';
 
 export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [adminToken, setAdminToken] = useState('');
   const router = useRouter();
+
+  useEffect(() => {
+    // Check session storage on mount
+    if (typeof window !== 'undefined') {
+      const authenticated = sessionStorage.getItem('admin_authenticated');
+      const token = sessionStorage.getItem('admin_token');
+      if (authenticated === 'true' && token) {
+        setIsAuthenticated(true);
+        setAdminToken(token);
+      }
+    }
+  }, []);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     
     // Simple password check - in production, use proper authentication
     if (password === 'portfolio2026') {
+      const token = Buffer.from(`admin:${password}`).toString('base64');
       setIsAuthenticated(true);
+      setAdminToken(token);
       sessionStorage.setItem('admin_authenticated', 'true');
+      sessionStorage.setItem('admin_token', token);
       setError('');
     } else {
       setError('Invalid password');
@@ -26,19 +42,12 @@ export default function AdminPage() {
 
   const handleLogout = () => {
     setIsAuthenticated(false);
+    setAdminToken('');
+    setPassword('');
     sessionStorage.removeItem('admin_authenticated');
+    sessionStorage.removeItem('admin_token');
     router.push('/');
   };
-
-  // Check session storage on mount
-  useState(() => {
-    if (typeof window !== 'undefined') {
-      const authenticated = sessionStorage.getItem('admin_authenticated');
-      if (authenticated === 'true') {
-        setIsAuthenticated(true);
-      }
-    }
-  });
 
   if (!isAuthenticated) {
     return (
@@ -82,7 +91,10 @@ export default function AdminPage() {
   return (
     <div className="min-h-screen bg-gray-900 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <AdminDashboard onClose={handleLogout} />
+        <PortfolioCustomization 
+          onClose={handleLogout}
+          adminToken={adminToken}
+        />
       </div>
     </div>
   );
